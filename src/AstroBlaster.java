@@ -1,35 +1,36 @@
 import ui.GamePanel;
+import ui.StartPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class AstroBlaster extends JFrame {
     private GamePanel gamePanel;
+    private StartPanel startPanel;
+    private CardLayout cardLayout;
 
     public AstroBlaster() {
         setTitle("AstroBlaster");
-        setSize(800, 600); // Window size
+        setSize(900, 700); // Window size
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
 
-        // Add game panel
+        // Initialize and set the CardLayout
+        cardLayout = new CardLayout();
+        getContentPane().setLayout(cardLayout);
+
+        // Add game panel first so it’s available for ui.StartPanel
         gamePanel = new GamePanel();
-        add(gamePanel);
+        add(gamePanel, "game");
 
-        // Keyboard controls
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a' || e.getKeyChar() == 'A') {
-                    gamePanel.moveShipLeft();
-                } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd' || e.getKeyChar() == 'D') {
-                    gamePanel.moveShipRight();
-                }
-            }
-        });
+        // Add start panel
+        startPanel = new StartPanel(cardLayout, this, gamePanel);
+        add(startPanel, "start");
 
-        setFocusable(true); // Listen for key presses
+        // Show start panel initially
+        cardLayout.show(getContentPane(), "start");
+
+        // Listen for key presses
         setVisible(true); // Show the window
     }
 

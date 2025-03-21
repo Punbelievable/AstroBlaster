@@ -33,9 +33,11 @@ public class Ship {
         x = Math.min(maxX, x + 10); // Prevent going right of maxX
     }
 
+    /*
     public void setDirection(int dir) {
         direction = dir;
     }
+    */
 
     public void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -43,12 +45,14 @@ public class Ship {
         int shipWidth = 80;
         int shipHeight = 80;
 
+        /*
         double angle = 0;
         if (direction == -1) {
             angle = -Math.PI / 8;
         } else if (direction == 1) {
             angle = Math.PI / 8;
         }
+
 
         int centerX = x + shipWidth / 2;
         int centerY = y + shipHeight / 2;
@@ -58,6 +62,8 @@ public class Ship {
         g2d.translate(centerX, centerY);
         g2d.rotate(angle);
         g2d.translate(-centerX, -centerY);
+         */
+
 
         // Draw Ship
         if (image != null) {

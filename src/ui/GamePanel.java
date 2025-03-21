@@ -3,20 +3,46 @@ package ui;
 import entities.Ship;
 import javax.swing.*;
 import java.awt.*;
-
-/**
- * Manages the game's display,
- * including the background and the ship,
- * and provides methods to move the ship based on input.
- */
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel{
     private Ship ship;
 
     public GamePanel() {
-        ship = new Ship(350, 500, 800);
-        setFocusable(true); // Make panel focusable
-        requestFocusInWindow(); // Request focus to capture key events
+        setFocusable(true); // Allow key events
+
+        // Keyboard controls
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (ship != null) {
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a' || e.getKeyChar() == 'A') {
+                        //ship.setDirection(-1);
+                        ship.moveLeft();
+                    } else if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd' || e.getKeyChar() == 'D') {
+                        //ship.setDirection(1);
+                        ship.moveRight();
+                    }
+
+                    repaint();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyChar() == 'a' || e.getKeyChar() == 'A' ||
+                            e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyChar() == 'd' || e.getKeyChar() == 'D') {
+                        //ship.setDirection(0);
+                        repaint();
+                    }
+            }
+        });
+
+    }
+
+    public void setShip(String selectedShip) {
+        ship = new Ship(400, 530, 850, selectedShip); // Initial position and game width
     }
 
     @Override
@@ -25,15 +51,5 @@ public class GamePanel extends JPanel{
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight()); // Draw background
         ship.draw(g); // Draw the ship
-    }
-
-    public void moveShipLeft() {
-        ship.moveLeft();
-        repaint();
-    }
-
-    public void moveShipRight() {
-        ship.moveRight();
-        repaint();
     }
 }
